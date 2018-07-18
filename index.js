@@ -52,7 +52,7 @@ var handlers = {
     );
     var changeTodoTextInput = document.getElementById("changeTodoTextInput");
     todoList.changeTodo(
-      changeTodoPositionInput.valueAsNumber,
+      changeTodoPositionInput.value,
       changeTodoTextInput.value
     );
     changeTodoPositionInput.value = "";
@@ -81,9 +81,16 @@ var view = {
   displayTodos: function() {
     var todosUl = document.querySelector("ul");
     todosUl.innerHTML = "";
+
+    var changesSelect = document.querySelector("select");
+    changesSelect.innerHTML = "";
+
     todoList.todos.forEach(function(todo, position) {
       var todoLi = document.createElement("li");
       var todoTextWithCompletion = "";
+
+      // create option element for changeTodos dropdown menu
+      var changesOption = document.createElement("option");
 
       if (todo.completed === true) {
         todoTextWithCompletion = "(x) " + todo.todoText;
@@ -91,10 +98,15 @@ var view = {
         todoTextWithCompletion = "( ) " + todo.todoText;
       }
 
-      todoLi.id = position;
+      todoLi.value = position;
       todoLi.textContent = todoTextWithCompletion;
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
+
+      // add index and todo to changeTodos dropdown menu
+      changesOption.value = position;
+      changesOption.textContent = todo.todoText;
+      changesSelect.appendChild(changesOption);
     }, this); // need this in order to refer to view object -> forEach(callback, this)
   },
   createDeleteButton: function() {
