@@ -98,7 +98,7 @@ var view = {
         todoTextWithCompletion = "( ) " + todo.todoText;
       }
 
-      todoLi.value = position;
+      todoLi.setAttribute("data-position", position);
       todoLi.textContent = todoTextWithCompletion;
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
@@ -123,7 +123,9 @@ var view = {
       var elementClicked = event.target;
       //check if elementClicked is a delete button
       if (elementClicked.className === "deleteButton") {
-        handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+        handlers.deleteTodo(
+          parseInt(elementClicked.parentNode.getAttribute("data-position"))
+        );
       }
     });
   }
